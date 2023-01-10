@@ -5,6 +5,7 @@ cd program-kun
 pip install --no-cache-dir -r requirements.txt
 ```
 Edit the config.py with the correct values.
+Run the bot.
 ```
 python3 main.py
 ```
