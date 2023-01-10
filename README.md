@@ -2,6 +2,7 @@
 ```
 git clone https://github.com/Adjuntor/program-kun.git
 cd program-kun
+pip install --no-cache-dir -r requirements.txt
 ```
 edit the config.py with the correct values.
 ```
