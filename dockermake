@@ -1,5 +1,6 @@
+#!/bin/bash 
 docker stop $(docker ps -aq)
 docker rm -vf $(docker ps -aq)
 docker rmi -f $(docker images -aq)
 docker build -t program-kun .
-docker run -d --name=program-kun --restart=always program-kun 
+docker run -d --name=program-kun --restart=always program-kun
