@@ -14,8 +14,8 @@ from discord.ext import commands, tasks
 import tweepy.asynchronous
 
 class MyAsyncStreamingClient(tweepy.asynchronous.AsyncStreamingClient):
-    def __init__(self, bot, bearer_token):
-        super().__init__(bearer_token,)
+    def __init__(self, bot, bearer_token, wait_on_rate_limit):
+        super().__init__(bearer_token, wait_on_rate_limit=True)
         self.bot = bot
 
     async def on_response(self, response: tweepy.StreamResponse):
