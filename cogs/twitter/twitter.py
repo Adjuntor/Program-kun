@@ -29,7 +29,7 @@ class MyAsyncStreamingClient(tweepy.asynchronous.AsyncStreamingClient):
                 if tweet.author_id == following[x][0]:
                     channel_id = following[x][1]
                     await self.bot.get_channel(channel_id).send(content=f"https://twitter.com/{username}/status/{tweet.id}")
-                    
+    
     async def on_exception(self, exception):
         print(f"Exception while running Tweeter streamer V2:\n"
               f"{exception.__class__.__name__}")
