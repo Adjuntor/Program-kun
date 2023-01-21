@@ -14,8 +14,8 @@ from discord.ext import commands, tasks
 import tweepy.asynchronous
 
 class MyAsyncStreamingClient(tweepy.asynchronous.AsyncStreamingClient):
-    def __init__(self, bot, bearer_token):
-        super().__init__(bearer_token)
+    def __init__(self, bot, bearer_token, **kwargs):
+        super().__init__(bearer_token, **kwargs)
         self.bot = bot
 
     async def on_response(self, response: tweepy.StreamResponse):
@@ -29,6 +29,17 @@ class MyAsyncStreamingClient(tweepy.asynchronous.AsyncStreamingClient):
                 if tweet.author_id == following[x][0]:
                     channel_id = following[x][1]
                     await self.bot.get_channel(channel_id).send(content=f"https://twitter.com/{username}/status/{tweet.id}")
+                    
+    async def on_exception(self, exception):
+        print(f"Exception while running Tweeter streamer V2:\n"
+              f"{exception.__class__.__name__}")
+        print(exception)
+        exit(exception)
+    
+    async def on_disconnect(self):
+        print(f'Disconnected from Twitter Stream')   
+    async def on_connect(self):
+        print(f'Connected to Twitter Stream')
 
     async def initiate_stream(self):
         print("Starting Twitter Stream")
@@ -54,7 +65,7 @@ class MyAsyncStreamingClient(tweepy.asynchronous.AsyncStreamingClient):
 
 async def new_stream(bot: commands.Bot):
     print("Creating Twitter stream")
-    tStream = MyAsyncStreamingClient(bot, config.TWITTER_BEARER)
+    tStream = MyAsyncStreamingClient(bot, config.TWITTER_BEARER, wait_on_rate_limit=True)
     await tStream.initiate_stream()
 
 class Twitter(commands.Cog, name="Twitter"):
