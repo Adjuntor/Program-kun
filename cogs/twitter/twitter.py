@@ -54,7 +54,7 @@ class MyAsyncStreamingClient(tweepy.asynchronous.AsyncStreamingClient):
 
 async def new_stream(bot: commands.Bot):
     print("Creating Twitter stream")
-    tStream = MyAsyncStreamingClient(bot, config.TWITTER_BEARER, wait_on_rate_limit=True)
+    tStream = MyAsyncStreamingClient(bot, config.TWITTER_BEARER)
     await tStream.initiate_stream()
 
 class Twitter(commands.Cog, name="Twitter"):
