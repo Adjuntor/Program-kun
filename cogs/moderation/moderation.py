@@ -48,6 +48,8 @@ class Moderation(commands.Cog, name="Moderation"):
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         if not before.author.bot:
+            if after.embeds:
+                return
             for x in range(len(msg_ignore)):
                 if before.guild.id == msg_ignore[x][0]:
                     if before.channel.id == msg_ignore[x][1]:
