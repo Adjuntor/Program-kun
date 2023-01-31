@@ -48,18 +48,19 @@ class Moderation(commands.Cog, name="Moderation"):
     @commands.Cog.listener()
     async def on_message_edit(self, before, after):
         if not before.author.bot:
-            for x in range(len(msg_ignore)):
-                if before.guild.id == msg_ignore[x][0]:
-                    if before.channel.id == msg_ignore[x][1]:
-                        return
-            for x in range(len(msg_log)):
-                if before.guild.id == msg_log[x][0]:
-                    embed=discord.Embed(description=f"<@{before.author.id}>: {before.content}", timestamp=datetime.datetime.now(), color=discord.Colour.orange())
-                    embed.set_author(name=f"{before.author.name} - Edited Message.", icon_url=before.author.avatar.url)
-                    embed.add_field(name=f"After:", value=f"{after.content}")
-                    embed.add_field(name=f"Link:", value=f"[See Message](https://discordapp.com/channels/{after.guild.id}/{after.channel.id}/{after.id})")
-                    embed.add_field(name=f"Channel:", value=f"<#{before.channel.id}>")
-                    await self.bot.get_channel(msg_log[x][1]).send(embed=embed)
+            if not message.embeds:
+                for x in range(len(msg_ignore)):
+                    if before.guild.id == msg_ignore[x][0]:
+                        if before.channel.id == msg_ignore[x][1]:
+                            return
+                for x in range(len(msg_log)):
+                    if before.guild.id == msg_log[x][0]:
+                        embed=discord.Embed(description=f"<@{before.author.id}>: {before.content}", timestamp=datetime.datetime.now(), color=discord.Colour.orange())
+                        embed.set_author(name=f"{before.author.name} - Edited Message.", icon_url=before.author.avatar.url)
+                        embed.add_field(name=f"After:", value=f"{after.content}")
+                        embed.add_field(name=f"Link:", value=f"[See Message](https://discordapp.com/channels/{after.guild.id}/{after.channel.id}/{after.id})")
+                        embed.add_field(name=f"Channel:", value=f"<#{before.channel.id}>")
+                        await self.bot.get_channel(msg_log[x][1]).send(embed=embed)
 
     @commands.Cog.listener()
     async def on_member_update(self, before, after):
