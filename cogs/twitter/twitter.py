@@ -49,7 +49,7 @@ class MyAsyncStreamingClient(tweepy.asynchronous.AsyncStreamingClient):
             for r in rules[0]:
                 await self.delete_rules(r.id) 
         #Add rules from config file  
-        new_rules = tweepy.StreamRule(' OR '.join([f"from:{following[x][0]} -is:retweet -is:reply" for x in range(len(following))]))
+        new_rules = tweepy.StreamRule(' OR '.join([f"from:{following[x][0]} -is:retweet -is:reply -is:nullcast" for x in range(len(following))]))
         await self.add_rules(new_rules)
         #With this you only get original tweet and not reply
         self.filter(
