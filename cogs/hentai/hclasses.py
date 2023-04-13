@@ -58,7 +58,7 @@ class HClassesView(discord.ui.View):
         await HClassesView.assign(self, interaction, button, 804581985301299201)
 
     @discord.ui.button(label='SLayer', emoji="🔷", style=discord.ButtonStyle.gray, custom_id=f"hclasses_slayer")
-    async def waker(self, interaction: discord.Interaction, button: discord.ui.Button):
+    async def slayer(self, interaction: discord.Interaction, button: discord.ui.Button):
         await HClassesView.assign(self, interaction, button, 1095928651851243581)
 
 class HClasses(commands.Cog, name="HClasses"):
