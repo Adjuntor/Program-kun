@@ -31,32 +31,36 @@ class HClassesView(discord.ui.View):
     @discord.ui.button(label='FIghter', emoji="🔴", style=discord.ButtonStyle.gray, custom_id=f"hclasses_fighter")
     async def fighter(self, interaction: discord.Interaction, button: discord.ui.Button):
         await HClassesView.assign(self, interaction, button, 804581444629823508)
-    
+
     @discord.ui.button(label='RAnger', emoji="🟦", style=discord.ButtonStyle.gray, custom_id=f"hclasses_ranger")
     async def ranger(self, interaction: discord.Interaction, button: discord.ui.Button):
         await HClassesView.assign(self, interaction, button, 804581518314831882)
     @discord.ui.button(label='GUnner', emoji="🔵", style=discord.ButtonStyle.gray, custom_id=f"hclasses_gunner")
     async def gunner(self, interaction: discord.Interaction, button: discord.ui.Button):
         await HClassesView.assign(self, interaction, button,804581626847428609)
-    
+
     @discord.ui.button(label='FOrce', emoji="🟨", style=discord.ButtonStyle.gray, custom_id=f"hclasses_force")
     async def force(self, interaction: discord.Interaction, button: discord.ui.Button):
         await HClassesView.assign(self, interaction, button, 804581708435423232)
     @discord.ui.button(label='TEchter', emoji="🟡", style=discord.ButtonStyle.gray, custom_id=f"hclasses_techter")
     async def techter(self, interaction: discord.Interaction, button: discord.ui.Button):
         await HClassesView.assign(self, interaction, button, 804581788885581824)
-    
+
     @discord.ui.button(label='BRaver', emoji="🟩", style=discord.ButtonStyle.gray, custom_id=f"hclasses_braver")
     async def braver(self, interaction: discord.Interaction, button: discord.ui.Button):
         await HClassesView.assign(self, interaction, button, 804581853751148585)
     @discord.ui.button(label='BOuncer', emoji="🟢", style=discord.ButtonStyle.gray, custom_id=f"hclasses_bouncer")
     async def bouncer(self, interaction: discord.Interaction, button: discord.ui.Button):
         await HClassesView.assign(self, interaction, button, 804581926622986250)
-    
+
     @discord.ui.button(label='WAker', emoji="🟧", style=discord.ButtonStyle.gray, custom_id=f"hclasses_waker")
     async def waker(self, interaction: discord.Interaction, button: discord.ui.Button):
         await HClassesView.assign(self, interaction, button, 804581985301299201)
-    
+
+    @discord.ui.button(label='SLayer', emoji="🔷", style=discord.ButtonStyle.gray, custom_id=f"hclasses_slayer")
+    async def waker(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await HClassesView.assign(self, interaction, button, 1095928651851243581)
+
 class HClasses(commands.Cog, name="HClasses"):
     """Assign Classes Roles to people"""
 
