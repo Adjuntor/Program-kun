@@ -19,7 +19,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 
-class TweetMK2(commands.Cog, name="Tweet"):
+class TwitterMK2(commands.Cog, name="TwitterMK2"):
     """Twitter stuff"""
 
     __chrome_options = Options()
@@ -33,7 +33,7 @@ class TweetMK2(commands.Cog, name="Tweet"):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print('TweetMK2 Cog initialized')
+        print('TwitterMK2 Cog initialized')
         self.main_process.start()
 
     def __init__(self, bot: commands.Bot):
@@ -158,4 +158,4 @@ class TweetMK2(commands.Cog, name="Tweet"):
                     
 
 async def setup(bot: commands.Bot):
-  await bot.add_cog(TweetMK2(bot))
+  await bot.add_cog(TwitterMK2(bot))
