@@ -20,10 +20,10 @@ TWITTER_FOLLOWING = [
 FOLLOWING = ["https://twitter.com/NIKKE_en", "https://twitter.com/honkaiimpact3rd"]
 
 # Path to chrome driver to be used by selenium
-CHROME_DRIVER = "C:\\Data\\ChromeDriver\\chromedriver.exe"
+CHROME_DRIVER = ""
 
 # Path to storage/cache
-PATH_TO_STORAGE = "C:\\Data\\dump"
+PATH_TO_STORAGE = ""
 
 # Time to wait for page to load
 TIME_TO_WAIT_IN_SECONDS = 8
