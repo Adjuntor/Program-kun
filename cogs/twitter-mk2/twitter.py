@@ -10,7 +10,7 @@ import json
 
 #Discord lib
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 # Selenium shit
 from selenium import webdriver
@@ -24,6 +24,7 @@ class TweetMK2(commands.Cog, name="Tweet"):
 
     __chrome_options = Options()
     __chrome_options.add_argument("--headless")
+    __chrome_options.add_argument("--remote-debugging-port=9222")
     __twitterUrl = "https://twitter.com"
     __cache = {}
     __jsonPath = config.PATH_TO_STORAGE + "/scrapper.json"
@@ -37,7 +38,7 @@ class TweetMK2(commands.Cog, name="Tweet"):
 
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-        loadJson()
+        self.__loadJson()
         self.__driver = webdriver.Chrome(options = self.__chrome_options, service = Service(config.CHROME_DRIVER))
 
     @commands.command()
@@ -50,23 +51,23 @@ class TweetMK2(commands.Cog, name="Tweet"):
         cache[url] = {"pinned": [], "lastId": None}
         await channel.send(f"Successfully registered")
 
-    def __getId(url):
+    def __getId(self, url):
         regStr = ".*\/status\/(\d+)"
         reRes = re.search(regStr, url)
         return reRes[1]
 
-    def __signOnKiller():
+    def __signOnKiller(self):
         self.__driver.execute_script("document.querySelector('div[data-testid=\"BottomBar\"]').remove()")
 
     # to kill notification popup
-    def __notificationKiller():
+    def __notificationKiller(self):
         notificationPopup = self.__driver.find_elements(By.CSS_SELECTOR, 'div[data-testid=\"sheetDialog\"]')
 
         if len(notificationPopup) > 0:
             notificationPopup[0].find_element(By.CSS_SELECTOR, 'div > div > div:first-child > div > div > svg').click()
             time.sleep(1)
 
-    def __exists(arr, valToCheck):
+    def __exists(self, arr, valToCheck):
         try:
             arr.index(valToCheck)
             return True
@@ -92,8 +93,8 @@ class TweetMK2(commands.Cog, name="Tweet"):
             self.__cache = json.loads(jsonContent)
 
         for url in config.FOLLOWING:
-            if cache.get(url) is None:
-                cache[url] = {"pinned": [], "lastId": None}
+            if self.__cache.get(url) is None:
+                self.__cache[url] = {"pinned": [], "lastId": None}
             
         self.__jsonFile = jsonFile
 
@@ -101,54 +102,59 @@ class TweetMK2(commands.Cog, name="Tweet"):
     async def main_process(self):
         try:
             for url in config.FOLLOWING:
-            self.__driver.get(url)
-            time.sleep(config.TIME_TO_WAIT_IN_SECONDS)
+                self.__driver.get(url)
+                time.sleep(config.TIME_TO_WAIT_IN_SECONDS)
 
-            # main page loaded
-            self.__notificationKiller(driver)
-            self.__signOnKiller(driver)
+                # main page loaded
+                self.__notificationKiller()
+                self.__signOnKiller()
 
-            foundTheId = False
+                foundTheId = False
 
-            visitedArticles = []
+                visitedArticles = []
 
-            # main process
-            while not foundTheId:
-                articles = self.__driver.find_elements(By.TAG_NAME, "article")
-                for article in articles:
+                # main process
+                while not foundTheId:
+                    articles = self.__driver.find_elements(By.TAG_NAME, "article")
+                    for article in articles:
 
-                    if self.__exists(visitedArticles, article.id):
-                        continue
-                    
-                    innertxt = article.get_attribute("innerText")
-                    if innertxt.startswith("Pinned Tweet"):
-                        # check pinned tweet storage instead
-                        notificationKiller()
-                        ActionChains(self.__driver).move_to_element(article).perform()
+                        if self.__exists(visitedArticles, article.id):
+                            continue
                         
-                        artUrl = article.find_element(By.CSS_SELECTOR, "a[href*=\"status\"]").get_attribute("href")
-                        artUrl = self.__twitterUrl + artUrl
+                        innertxt = article.get_attribute("innerText")
+                        if innertxt.startswith("Pinned Tweet"):
+                            # check pinned tweet storage instead
+                            self.__notificationKiller()
+                            ActionChains(self.__driver).move_to_element(article).perform()
+                            
+                            artUrl = article.find_element(By.CSS_SELECTOR, "a[href*=\"status\"]").get_attribute("href")
+                            artUrl = self.__twitterUrl + artUrl
 
-                        id = self.__getId(artUrl)
+                            id = self.__getId(artUrl)
 
-                        if not exists(self.__cache[url]["pinned"], id):
-                            self.__cache[url]["pinned"].append(id)
-                            # discord stuff
+                            if not self.__exists(self.__cache[url]["pinned"], id):
+                                self.__cache[url]["pinned"].append(id)
+                                # discord stuff
 
-                        continue
-                    else:                    
-                        artUrl = article.find_element(By.CSS_SELECTOR, "a[href*=\"status\"]").get_attribute("href")
-                        artUrl = self.__twitterUrl + artUrl
+                            continue
+                        else:                    
+                            artUrl = article.find_element(By.CSS_SELECTOR, "a[href*=\"status\"]").get_attribute("href")
+                            artUrl = self.__twitterUrl + artUrl
 
-                        id = self.__getId(artUrl)
+                            id = self.__getId(artUrl)
 
-                        if not self.__cache[url]["lastId"] == id:
-                            self.__cache[url]["lastId"] = id
-                            # discord stuff
-                        
-                        foundTheId = True
-        except:
+                            if not self.__cache[url]["lastId"] == id:
+                                self.__cache[url]["lastId"] = id
+                                # discord stuff
+                            
+                            foundTheId = True
+
+            self.__jsonFile = open(self.__jsonPath, "w")
+            self.__jsonFile.write(json.dumps(self.__cache))
+            self.__jsonFile.close()
+        except Exception as e:
             print("Error in twitterMK2")
+            print(e)
                     
 
 async def setup(bot: commands.Bot):
