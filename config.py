@@ -16,6 +16,18 @@ TWITTER_FOLLOWING = [
     [1072404907230060544, 8937832461213380938] # Genshin Impact
 ]
 
+# URL(s) to scrape
+FOLLOWING = ["https://twitter.com/NIKKE_en", "https://twitter.com/honkaiimpact3rd"]
+
+# Path to chrome driver to be used by selenium
+CHROME_DRIVER = ""
+
+# Path to storage/cache
+PATH_TO_STORAGE = ""
+
+# Time to wait for page to load
+TIME_TO_WAIT_IN_SECONDS = 8
+
 #Twitter tokens, need ELEVATED priviledge
 TWITTER_BEARER=r"AAAAAAAAAAAAAAAAAAAAAE1234567890LKnfikaujFJANSKJfbakhsbfakhsnfoF#*(NFOQOGFN"
 #######################################################################################
