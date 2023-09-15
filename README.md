@@ -1,7 +1,7 @@
 # How to run
 ```
-git clone https://github.com/Adjuntor/program-kun.git
-cd program-kun
+git clone https://github.com/Adjuntor/shiva.git
+cd shiva
 pip install --no-cache-dir -r requirements.txt
 ```
 Edit the config.py with the correct values.
@@ -13,19 +13,19 @@ python3 main.py
 # Docker Image
 Requires docker to be installed.
 ```
-git clone https://github.com/Adjuntor/program-kun.git
-cd program-kun
+git clone https://github.com/Adjuntor/shiva.git
+cd shiva
 ```
 Edit the config.py with the correct values.
 ```
-docker build -t program-kun .
-docker run -d --name=program-kun --restart=always program-kun 
+docker build -t shiva .
+docker run -d --name=shiva --restart=always shiva
 ```
 
 # Delete Docker Container
 ```
-docker stop program-kun
-docker rm program-kun
+docker stop shiva
+docker rm shiva
 ```
 
 # Updating
